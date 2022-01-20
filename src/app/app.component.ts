@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Particle } from './models/particle.model';
 import { Vector } from './models/vector.model';
-import { TweenMax } from 'gsap';
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'my-app',
@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit {
     this.resize();
 
     // Wait a second before fading the elements in to prevent a flash of unpositioned/unstyled content
-    TweenMax.to('.stage', 1, { autoAlpha: 1, delay: 1 });
+    gsap.to('.stage', { duration: 1, autoAlpha: 1, delay: 1 });
   }
 
   private addEvents() {
@@ -91,15 +91,17 @@ export class AppComponent implements AfterViewInit {
     this.h = window.innerHeight;
 
     // Make sure the basketall has no previous GSAP's transforms on it
-    TweenMax.set(this.ball, { clearProps: 'all' });
+    gsap.set(this.ball, { clearProps: 'all' });
 
     // Move the basketball to its starting offset
-    TweenMax.set(this.ball, { y: '+=' + this.offsetY }); // We need a number rather than a percentage to use later with collision calculation.
+    gsap.set(this.ball, { y: '+=' + this.offsetY }); // We need a number rather than a percentage to use later with collision calculation.
 
-    this.scale = TweenMax.to(this.ball, 0.5, {
-      scale: this.ratio,
-      ease: Power1.easeInOut,
-    })
+    this.scale = gsap
+      .to(this.ball, {
+        duration: 0.5,
+        scale: this.ratio,
+        ease: 'power1.inOut',
+      })
       .progress(1)
       .pause(0);
   }
@@ -147,12 +149,14 @@ export class AppComponent implements AfterViewInit {
                 this.score += 1;
               }
 
-              TweenMax.to('#net', 1, {
+              gsap.to('#net', {
+                duration: 1,
                 scaleY: 1.1,
                 transformOrigin: '50% 0',
                 ease: Elastic.easeOut,
               });
-              TweenMax.to('#net', 0.3, {
+              gsap.to('#net', {
+                duration: 0.3,
                 scale: 1,
                 transformOrigin: '50% 0',
                 ease: Power2.easeInOut,
@@ -164,7 +168,7 @@ export class AppComponent implements AfterViewInit {
       }
     }
     this.p.update();
-    TweenMax.set(this.ball, {
+    gsap.set(this.ball, {
       x: this.p.position.getX(),
       y: currY,
       rotation: this.rot,
@@ -193,7 +197,7 @@ export class AppComponent implements AfterViewInit {
     this.getSpeed(e);
 
     //  Update the ball's position
-    TweenMax.set(this.ball, {
+    gsap.set(this.ball, {
       x: this.p.position.getX(),
       y: this.p.position.getY(),
     });
@@ -252,7 +256,8 @@ export class AppComponent implements AfterViewInit {
 
     this.updateScore();
 
-    TweenMax.to(this.ball, 1, {
+    gsap.to(this.ball, {
+      duration: 1,
       x: 0,
       y: this.offsetY,
       scale: 1,
