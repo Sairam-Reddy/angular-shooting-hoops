@@ -5,15 +5,13 @@ $secondary: #adafb3;
 $tertiary: #feebcb;
 $shadow: 0 0 1px #633a26;
 
-:host {
-  ::ng-deep {
-    html,
-    body {
-      box-sizing: border-box;
-      height: 100%;
-      margin: 0;
-      width: 100%;
-    }
+::ng-deep {
+  html,
+  body {
+    box-sizing: border-box;
+    height: 100vh;
+    margin: 0;
+    width: 100%;
   }
 }
 

@@ -153,13 +153,13 @@ export class AppComponent implements AfterViewInit {
                 duration: 1,
                 scaleY: 1.1,
                 transformOrigin: '50% 0',
-                ease: Elastic.easeOut,
+                ease: 'elastic.out(1, 0.3)',
               });
               gsap.to('#net', {
                 duration: 0.3,
                 scale: 1,
                 transformOrigin: '50% 0',
-                ease: Power2.easeInOut,
+                ease: 'power2.out',
                 delay: 0.6,
               });
             }
@@ -187,8 +187,8 @@ export class AppComponent implements AfterViewInit {
       this.getMouse(e).y - this.offsetY
     );
 
-    document.addEventListener('mousemove', this.moveBall);
-    document.addEventListener('touchmove', this.moveBall);
+    document.addEventListener('mousemove', this.moveBall.bind(this));
+    document.addEventListener('touchmove', this.moveBall.bind(this));
   }
 
   private moveBall(e) {
@@ -262,7 +262,7 @@ export class AppComponent implements AfterViewInit {
       y: this.offsetY,
       scale: 1,
       rotation: 0,
-      ease: Power3.easeOut,
+      ease: 'power3.out',
     });
   }
 
