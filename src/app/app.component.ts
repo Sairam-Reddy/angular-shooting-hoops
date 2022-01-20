@@ -1,6 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Particle } from './models/particle.model';
 import { Vector } from './models/vector.model';
+import { TweenMax } from 'gsap';
 
 @Component({
   selector: 'my-app',
@@ -230,14 +231,14 @@ export class AppComponent implements AfterViewInit {
     }
 
     //  Start GSAP's tick so more physics-like movement can take place
-    TweenMax.ticker.addEventListener('tick', this.tick);
+    gsap.ticker.add(this.tick.bind(this));
 
     // Stop it after some period of time - saves having to write edges and floor logic and the user can shoot every three seconds or so
-    TweenMax.delayedCall(2, this.reset.bind(this));
+    gsap.delayedCall(2, this.reset.bind(this));
   }
 
   private reset() {
-    TweenMax.ticker.removeEventListener('tick', this.tick.bind(this));
+    gsap.ticker.remove(this.tick);
 
     this.p.gravity = 0;
 
