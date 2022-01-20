@@ -12,7 +12,7 @@ export class Particle {
     obj.velocity = Vector.create(0, 0);
     obj.velocity.setLength(speed);
     obj.velocity.setAngle(direction);
-    obj.gravity = Vector.create(0, grav || 0);
+    obj.gravity = Vector.create(0, grav ? grav : 0);
 
     return obj;
   }
