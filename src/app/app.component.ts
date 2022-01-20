@@ -244,7 +244,7 @@ export class AppComponent implements AfterViewInit {
   private reset() {
     gsap.ticker.remove(this.tick);
 
-    this.p.gravity = 0;
+    this.p.gravity = Vector.create(0, 0);
 
     this.hasThrown = false;
     this.highEnough = false;
