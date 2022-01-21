@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Particle } from './models/particle.model';
 import { Vector } from './models/vector.model';
-import { TweenMax, Elastic, Power1, Power2, Power3 } from 'gsap/all';
+import { TweenMax, Elastic, Power1, Power2, Power3 } from 'gsap/TweenMax';
 
 @Component({
   selector: 'my-app',
