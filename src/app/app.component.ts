@@ -49,7 +49,7 @@ export class AppComponent implements AfterViewInit {
     this.resize();
 
     // Wait a second before fading the elements in to prevent a flash of unpositioned/unstyled content
-    TweenMax.to('.stage', { duration: 1, autoAlpha: 1, delay: 1 });
+    TweenMax.to('.stage', 1, { autoAlpha: 1, delay: 1 });
   }
 
   private addEvents() {
