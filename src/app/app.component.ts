@@ -238,7 +238,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   private reset() {
-    TweenMax.ticker.removeEventListener('tick', this.tick);
+    TweenMax.ticker.removeEventListener('tick', this.tick.bind(this));
 
     this.p.gravity = Vector.create(0, 0);
 
