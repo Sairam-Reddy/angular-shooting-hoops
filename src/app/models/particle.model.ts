@@ -6,6 +6,8 @@ export class Particle {
   public velocity: Vector;
   public gravity: Vector;
 
+  public constructor() {}
+
   public static create(x, y, speed, direction, grav): Particle {
     const obj = new Particle();
     obj.position = Vector.create(x, y);
