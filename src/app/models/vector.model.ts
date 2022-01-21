@@ -1,7 +1,12 @@
 // A Vector
 export class Vector {
-  public _x: number = 1;
-  public _y: number = 0;
+  public _x: number;
+  public _y: number;
+
+  public constructor() {
+    this._x = 1;
+    this._y = 0;
+  }
 
   public static create(x: number, y: number): Vector {
     const obj: Vector = new Vector();
