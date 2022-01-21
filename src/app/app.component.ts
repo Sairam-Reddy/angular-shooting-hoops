@@ -96,8 +96,7 @@ export class AppComponent implements AfterViewInit {
     // Move the basketball to its starting offset
     TweenMax.set(this.ball, { y: '+=' + this.offsetY }); // We need a number rather than a percentage to use later with collision calculation.
 
-    this.scale = TweenMax.to(this.ball, {
-      duration: 0.5,
+    this.scale = TweenMax.to(this.ball, 0.5, {
       scale: this.ratio,
       ease: Power1.easeInOut,
     })
@@ -148,14 +147,12 @@ export class AppComponent implements AfterViewInit {
                 this.score += 1;
               }
 
-              TweenMax.to('#net', {
-                duration: 1,
+              TweenMax.to('#net', 1, {
                 scaleY: 1.1,
                 transformOrigin: '50% 0',
                 ease: Elastic.easeOut,
               });
-              TweenMax.to('#net', {
-                duration: 0.3,
+              TweenMax.to('#net', 0.3, {
                 scale: 1,
                 transformOrigin: '50% 0',
                 ease: Power2.easeInOut,
@@ -255,8 +252,7 @@ export class AppComponent implements AfterViewInit {
 
     this.updateScore();
 
-    TweenMax.to(this.ball, {
-      duration: 1,
+    TweenMax.to(this.ball, 1, {
       x: 0,
       y: this.offsetY,
       scale: 1,
