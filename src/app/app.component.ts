@@ -60,10 +60,10 @@ export class AppComponent implements AfterViewInit {
   }
 
   private removeEvents() {
-    this.ball.removeEventListener('mousedown', this.grabBall);
-    this.ball.removeEventListener('touchstart', this.grabBall);
-    this.ball.removeEventListener('mouseup', this.releaseBall);
-    this.ball.removeEventListener('touchend', this.releaseBall);
+    this.ball.removeEventListener('mousedown', this.grabBall.bind(this));
+    this.ball.removeEventListener('touchstart', this.grabBall.bind(this));
+    this.ball.removeEventListener('mouseup', this.releaseBall.bind(this));
+    this.ball.removeEventListener('touchend', this.releaseBall.bind(this));
   }
 
   private resize() {
@@ -201,11 +201,11 @@ export class AppComponent implements AfterViewInit {
 
   private releaseBall() {
     // Stop tracking the mousedown/touchdown
-    this.ball.removeEventListener('mousedown', this.grabBall);
-    this.ball.removeEventListener('touchstart', this.grabBall);
+    this.ball.removeEventListener('mousedown', this.grabBall.bind(this));
+    this.ball.removeEventListener('touchstart', this.grabBall.bind(this));
     // Stop tracking the mousemove
-    document.removeEventListener('mousemove', this.moveBall);
-    document.removeEventListener('touchmove', this.moveBall);
+    document.removeEventListener('mousemove', this.moveBall.bind(this));
+    document.removeEventListener('touchmove', this.moveBall.bind(this));
     // Reset the mouse tracking defaults
     this.timestamp = null;
     const lastMouseX = null;
@@ -238,7 +238,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   private reset() {
-    TweenMax.ticker.removeEventListener('tick', this.tick);
+    TweenMax.ticker.removeEventListener('tick', this.tick.bind(this));
 
     this.p.gravity = Vector.create(0, 0);
 
