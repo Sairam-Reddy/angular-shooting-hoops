@@ -35,10 +35,10 @@ export class AppComponent implements AfterViewInit {
   private rot;
 
   // Score vars
-  private shots = 0;
-  private hits = 0;
-  private score = 0;
-  private accuracy = 0;
+  public shots = 0;
+  public hits = 0;
+  public score = 0;
+  public accuracy = 0;
 
   private grabBallBound;
   private releaseBallBound;
@@ -308,11 +308,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   private updateScore() {
-    this.accuracy = this.hits / this.shots;
+    this.accuracy = Math.round((this.hits / this.shots) * 100);
 
-    document.getElementById('shots').innerHTML = 'Shots: ' + this.shots;
-    document.getElementById('hits').innerHTML = 'Score: ' + this.score;
-    document.getElementById('accuracy').innerHTML =
-      'Accuracy: ' + Math.round(this.accuracy * 100) + '%';
+    
   }
 }

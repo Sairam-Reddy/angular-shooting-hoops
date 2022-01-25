@@ -71,9 +71,9 @@
 </div>
 
 <ul class="copy">
-  <li id="shots">Shots: 0</li>
-  <li id="hits">Score: 0</li>
-  <li id="accuracy">Accuracy: 0%</li>
+  <li>Shots: {{ shots }}</li>
+  <li>Score: {{ score }}</li>
+  <li>Accuracy: {{ accuracy }}{{ accuracy > 0 ? '%' : '' }}</li>
 </ul>
 
 <p class="copy instructions">
