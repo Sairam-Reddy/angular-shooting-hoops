@@ -118,8 +118,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   private tick() {
-    var currY = this.p.position.getY();
-    var currX = this.p.position.getX();
+    let currY = this.p.position.getY();
+    let currX = this.p.position.getX();
 
     if (this.hasThrown) {
       if (currY < 0) {
