@@ -287,29 +287,26 @@ export class AppComponent implements AfterViewInit {
     if (this.timestamp === null) {
       this.timestamp = Date.now();
       this.lastMouse = this.getMouse(e);
-      return;
+    } else {
+      const now = Date.now();
+      const currMouse = this.getMouse(e);
+      let dx = currMouse.x - this.lastMouse.x;
+      let dy = currMouse.y - this.lastMouse.y;
+
+      // Let's make the angle less steep
+      dy *= 2;
+      dx /= 2;
+
+      this.timestamp = now;
+      this.lastMouse = currMouse;
+
+      this.force = Vector.create(dx, dy);
+      this.p.position.setX(this.getMouse(e).x - this.start.getX());
+      this.p.position.setY(this.getMouse(e).y - this.start.getY());
     }
-
-    var now = Date.now(),
-      currMouse = this.getMouse(e),
-      dx = currMouse.x - this.lastMouse.x,
-      dy = currMouse.y - this.lastMouse.y;
-
-    // Let's make the angle less steep
-    dy *= 2;
-    dx /= 2;
-
-    this.timestamp = now;
-    this.lastMouse = currMouse;
-
-    this.force = Vector.create(dx, dy);
-    this.p.position.setX(this.getMouse(e).x - this.start.getX());
-    this.p.position.setY(this.getMouse(e).y - this.start.getY());
   }
 
   private updateScore() {
     this.accuracy = Math.round((this.hits / this.shots) * 100);
-
-    
   }
 }
