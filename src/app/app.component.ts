@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { Particle } from './models/particle.model';
 import { Vector } from './models/vector.model';
 import { TweenMax, Elastic, Power1, Power2, Power3 } from 'gsap';
@@ -9,6 +9,9 @@ import { TweenMax, Elastic, Power1, Power2, Power3 } from 'gsap';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewInit {
+  @ViewChild('ballEl') ballEl: ElementRef;
+  @ViewChild('basketEl') basketEl: ElementRef;
+
   // Ball and basket
   public ball;
   private offsetY;
@@ -37,11 +40,21 @@ export class AppComponent implements AfterViewInit {
   private score = 0;
   private accuracy = 0;
 
+  private grabBallBound;
+  private releaseBallBound;
+  private moveBallBound;
+  private tickBound;
+
   public ngAfterViewInit(): void {
     // Ball and basket vars
-    this.ball = document.getElementById('ball');
+    this.ball = this.ballEl.nativeElement;
 
-    this.basket = document.getElementById('basket');
+    this.basket = this.basketEl.nativeElement;
+
+    this.grabBallBound = this.grabBall.bind(this);
+    this.releaseBallBound = this.releaseBall.bind(this);
+    this.moveBallBound = this.moveBall.bind(this);
+    this.tickBound = this.tick.bind(this);
 
     window.addEventListener('resize', this.resize.bind(this));
     window.addEventListener('orientationchange', this.resize.bind(this));
@@ -53,17 +66,17 @@ export class AppComponent implements AfterViewInit {
   }
 
   private addEvents() {
-    this.ball.addEventListener('mousedown', this.grabBall.bind(this));
-    this.ball.addEventListener('touchstart', this.grabBall.bind(this));
-    this.ball.addEventListener('mouseup', this.releaseBall.bind(this));
-    this.ball.addEventListener('touchend', this.releaseBall.bind(this));
+    this.ball.addEventListener('mousedown', this.grabBallBound);
+    this.ball.addEventListener('touchstart', this.grabBallBound);
+    this.ball.addEventListener('mouseup', this.releaseBallBound);
+    this.ball.addEventListener('touchend', this.releaseBallBound);
   }
 
   private removeEvents() {
-    this.ball.removeEventListener('mousedown', this.grabBall.bind(this));
-    this.ball.removeEventListener('touchstart', this.grabBall.bind(this));
-    this.ball.removeEventListener('mouseup', this.releaseBall.bind(this));
-    this.ball.removeEventListener('touchend', this.releaseBall.bind(this));
+    this.ball.removeEventListener('mousedown', this.grabBallBound);
+    this.ball.removeEventListener('touchstart', this.grabBallBound);
+    this.ball.removeEventListener('mouseup', this.releaseBallBound);
+    this.ball.removeEventListener('touchend', this.releaseBallBound);
   }
 
   private resize() {
@@ -183,8 +196,8 @@ export class AppComponent implements AfterViewInit {
       this.getMouse(e).y - this.offsetY
     );
 
-    document.addEventListener('mousemove', this.moveBall.bind(this));
-    document.addEventListener('touchmove', this.moveBall.bind(this));
+    document.addEventListener('mousemove', this.moveBallBound);
+    document.addEventListener('touchmove', this.moveBallBound);
   }
 
   private moveBall(e) {
@@ -201,11 +214,11 @@ export class AppComponent implements AfterViewInit {
 
   private releaseBall() {
     // Stop tracking the mousedown/touchdown
-    this.ball.removeEventListener('mousedown', this.grabBall.bind(this));
-    this.ball.removeEventListener('touchstart', this.grabBall.bind(this));
+    this.ball.removeEventListener('mousedown', this.grabBallBound);
+    this.ball.removeEventListener('touchstart', this.grabBallBound);
     // Stop tracking the mousemove
-    document.removeEventListener('mousemove', this.moveBall.bind(this));
-    document.removeEventListener('touchmove', this.moveBall.bind(this));
+    document.removeEventListener('mousemove', this.moveBallBound);
+    document.removeEventListener('touchmove', this.moveBallBound);
     // Reset the mouse tracking defaults
     this.timestamp = null;
     const lastMouseX = null;
@@ -231,14 +244,14 @@ export class AppComponent implements AfterViewInit {
     }
 
     //  Start GSAP's tick so more physics-like movement can take place
-    TweenMax.ticker.addEventListener('tick', this.tick.bind(this));
+    TweenMax.ticker.addEventListener('tick', this.tickBound);
 
     // Stop it after some period of time - saves having to write edges and floor logic and the user can shoot every three seconds or so
     TweenMax.delayedCall(2, this.reset.bind(this));
   }
 
   private reset() {
-    TweenMax.ticker.removeEventListener('tick', this.tick.bind(this));
+    TweenMax.ticker.removeEventListener('tick', this.tickBound);
 
     this.p.gravity = Vector.create(0, 0);
 
@@ -246,9 +259,6 @@ export class AppComponent implements AfterViewInit {
     this.highEnough = false;
 
     this.basket.style.zIndex = 0;
-
-    this.ball.addEventListener('mousedown', this.grabBall.bind(this));
-    this.ball.addEventListener('touchstart', this.grabBall.bind(this));
 
     this.updateScore();
 
@@ -259,6 +269,9 @@ export class AppComponent implements AfterViewInit {
       rotation: 0,
       ease: Power3.easeOut,
     });
+
+    this.ball.addEventListener('mousedown', this.grabBallBound);
+    this.ball.addEventListener('touchstart', this.grabBallBound);
   }
 
   private getMouse(e) {
